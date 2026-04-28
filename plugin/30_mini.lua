@@ -73,9 +73,7 @@ now(function()
   local ext3_blocklist = { scm = true, txt = true, yml = true }
   local ext4_blocklist = { json = true, yaml = true }
   require('mini.icons').setup({
-    use_file_extension = function(ext, _)
-      return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
-    end,
+    use_file_extension = function(ext, _) return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)]) end,
   })
 
   -- Mock 'nvim-tree/nvim-web-devicons' for plugins without 'mini.icons' support.
@@ -180,9 +178,7 @@ now_if_args(function()
   })
 
   -- Set 'omnifunc' for LSP completion only when needed.
-  local on_attach = function(ev)
-    vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-  end
+  local on_attach = function(ev) vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
   Config.new_autocmd('LspAttach', nil, on_attach, "Set 'omnifunc'")
 
   -- Advertise to servers that Neovim now supports certain set of completion and

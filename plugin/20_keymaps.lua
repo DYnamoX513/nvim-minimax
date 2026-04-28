@@ -21,6 +21,11 @@ nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
 
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
+nmap('<Tab>', '<cmd>bnext<CR>', 'Next Buffer')
+nmap('<S-Tab>', '<cmd>bprevious<CR>', 'Previous Buffer')
+nmap('<ESC>', '<cmd>nohlsearch<CR>', 'Clear search highlight')
+-- nmap(';', ':', 'Enter Command Mode' )
+
 -- stylua: ignore start
 -- The next part (until `-- stylua: ignore end`) is aligned manually for easier
 -- reading. Consider preserving this or remove `-- stylua` lines to autoformat.
@@ -144,6 +149,7 @@ nmap_leader('fg', '<Cmd>Pick grep_live<CR>',                    'Grep live')
 nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
 nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
 nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
+nmap_leader('fk', '<Cmd>Pick keymaps<CR>',                      'Keymaps')
 nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',        'Lines (all)')
 nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
 nmap_leader('fm', '<Cmd>Pick git_hunks<CR>',                    'Modified hunks (all)')
@@ -211,6 +217,15 @@ nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       'Toggle')
 nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
 nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
+
+nmap_leader('of', '<Cmd>FormatToggle!<CR>',                 'Toggle buffer autoformat')
+nmap_leader('oF', '<Cmd>FormatToggle<CR>',                  'Toggle global autoformat')
+
+-- Toggle diagnostic virtual_lines
+nmap_leader('oK', function()
+  local new_config = not vim.diagnostic.config().virtual_lines
+  vim.diagnostic.config({ virtual_lines = new_config })
+end, 'Toggle diagnostic virtual_lines')
 
 -- s is for 'Session'. Common usage:
 -- - `<Leader>sn` - start new session

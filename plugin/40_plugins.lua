@@ -135,8 +135,32 @@ later(function()
     },
     -- Map of filetype to formatters
     -- Make sure that necessary CLI tool is available
-    -- formatters_by_ft = { lua = { 'stylua' } },
+    formatters_by_ft = {
+      lua = { 'stylua' },
+      javascript = { 'prettier' },
+      css = { 'prettier' },
+      html = { 'prettier' },
+      json = { 'prettier' },
+      python = { 'ruff_format', 'ruff_organize_imports' },
+      sh = { 'shfmt' },
+      nix = { 'alejandra' },
+      yaml = { 'yamlfmt' },
+    },
+    format_on_save = function(bufnr)
+      if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
+      return { timeout_ms = 500 }
+    end,
   })
+
+  vim.api.nvim_create_user_command('FormatToggle', function(args)
+    if args.bang then
+      vim.b.disable_autoformat = not (vim.b.disable_autoformat or false)
+      vim.notify(string.format('Buffer autoformat %s', vim.b.disable_autoformat and 'off' or 'on'))
+    else
+      vim.g.disable_autoformat = not (vim.g.disable_autoformat or false)
+      vim.notify(string.format('Global autoformat %s', vim.g.disable_autoformat and 'off' or 'on'))
+    end
+  end, { desc = 'Toggle format-on-save', bang = true })
 end)
 
 -- Snippets ===================================================================
